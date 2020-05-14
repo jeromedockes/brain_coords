@@ -1,0 +1,18 @@
+language: python
+
+python:
+  - 3.6
+  - 3.8
+
+env:
+  - NUMPY_SPEC='numpy==1.16'
+  - NUMPY_SPEC='numpy'
+
+install:
+  - pip install $NUMPY_SPEC
+  - pip install pytest pytest-cov codecov
+  - pip install .
+
+script:
+  - pytest --pyargs brain_coords --cov=brain_coords
+  - codecov

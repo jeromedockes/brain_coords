@@ -5,6 +5,6 @@ setup(
     description="transformation from coordinates to brain images",
     packages=find_packages(),
     package_data={"brain_coords": ["data/*"]},
-    install_requires=["nilearn",],
+    install_requires=["nilearn", "matplotlib"],
     python_requires=">=3",
 )

@@ -1,0 +1,12 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - run: pip install .
+      - run: python examples/demo.py
+      - store_artifacts:
+          path: dmn_img.png
+          destination: dmn_img.png

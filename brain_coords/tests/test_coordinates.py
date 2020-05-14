@@ -15,4 +15,4 @@ def test_coords_to_img():
     coords = coordinates.load_dmn_coords()
     img = coordinates.coords_to_img(coords)
     data = image.get_data(img)
-    assert np.allclose(np.sum(data), 3.9074, atol=1e-3)
+    assert np.allclose(np.sum(data), 3.9, atol=.1)
