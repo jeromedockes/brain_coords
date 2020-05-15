@@ -8,6 +8,8 @@ from nilearn.datasets import load_mni152_brain_mask
 
 def load_dmn_coords():
     coords_file = pathlib.Path(__file__).parent / "data" / "dmn_coords.txt"
+    if (ext := coords_file.suffix) != "txt":
+        print(f"We expect numpy text format but your file extension is {ext}")
     return np.loadtxt(str(coords_file))
 
 
