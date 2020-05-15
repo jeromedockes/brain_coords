@@ -6,9 +6,11 @@ from nilearn.input_data import NiftiMasker
 from nilearn.datasets import load_mni152_brain_mask
 
 
-def load_dmn_coords():
-    coords_file = pathlib.Path(__file__).parent / "data" / "dmn_coords.txt"
-    if (ext := coords_file.suffix) != "txt":
+def load_coords(coords_file=None):
+    if coords_file is None:
+        coords_file = pathlib.Path(__file__).parent / "data" / "dmn_coords.txt"
+    coords_file = pathlib.Path(coords_file)
+    if (ext := coords_file.suffix) != ".txt":
         print(f"We expect numpy text format but your file extension is {ext}")
     return np.loadtxt(str(coords_file))
 
