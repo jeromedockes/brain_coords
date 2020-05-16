@@ -12,7 +12,7 @@ def load_dmn_coords():
 
 
 def coords_to_img(coords, fwhm=9.0):
-    coords = np.atleast2d(coords)
+    coords = np.atleast_2d(coords)
     mask = load_mni152_brain_mask()
     masker = NiftiMasker(mask).fit()
     voxels = np.asarray(
