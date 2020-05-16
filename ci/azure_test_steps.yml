@@ -14,7 +14,7 @@ steps:
     python -m pytest --pyargs brain_coords --cov=brain_coords --cov-report=xml --cov-append -o junit_family=xunit2 --junitxml=test-results.xml
   displayName: 'Run tests'
 
-- script: |
+- bash: |
     codecov -f coverage.xml -t ${CODECOV_TOKEN}
   displayName: 'codecov upload'
   env:
