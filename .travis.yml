@@ -15,4 +15,4 @@ install:
 
 script:
   - pytest --pyargs brain_coords --cov=brain_coords
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
