@@ -26,6 +26,6 @@ jobs:
     - stage: linting
       install:
         - pip install flake8
-        - flake8 .
+      script: flake8 .
       python: 3.8
       env:
