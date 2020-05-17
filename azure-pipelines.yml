@@ -65,4 +65,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
           flake8 .
-        dislplayName: 'Run flake8'
+        displayName: 'Run flake8'
