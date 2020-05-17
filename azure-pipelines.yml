@@ -1,50 +1,68 @@
+---
 trigger:
-- master
+  - master
 
 jobs:
-- job: 'run_tests_on_ubuntu'
-  pool:
-    vmImage: 'ubuntu-latest'
-  strategy:
-    matrix:
-      Python36:
-        python.version: '3.6'
-        numpy.spec: 'numpy==1.16'
-      Python38:
-        python.version: '3.8'
-        numpy.spec: 'numpy'
-  steps:
-  - template: ci/azure_test_steps.yml
+  - job: 'run_tests_on_ubuntu'
+    pool:
+      vmImage: 'ubuntu-latest'
+    variables:
+      TEST_DIR: '$(Agent.WorkFolder)/tmp_test_dir'
+    strategy:
+      matrix:
+        Python36:
+          python.version: '3.6'
+          numpy.spec: 'numpy==1.16'
+        Python38:
+          python.version: '3.8'
+          numpy.spec: 'numpy'
+    steps:
+      - template: ci/azure_test_steps.yml
 
-- job: 'run_tests_on_windows'
-  pool:
-    vmImage: 'windows-latest'
-  strategy:
-    matrix:
-      Python37:
-        python.version: '3.7'
-        numpy.spec: 'numpy'
-  steps:
-  - template: ci/azure_test_steps.yml
+  - job: 'run_tests_on_windows'
+    pool:
+      vmImage: 'windows-latest'
+    variables:
+      TEST_DIR: '$(Agent.WorkFolder)\\tmp_test_dir'
+    strategy:
+      matrix:
+        Python37:
+          python.version: '3.7'
+          numpy.spec: 'numpy'
+    steps:
+      - template: ci/azure_test_steps.yml
 
-- job: 'run_examples'
-  pool:
-    vmImage: 'ubuntu-latest'
+  - job: 'run_examples'
+    pool:
+      vmImage: 'ubuntu-latest'
 
-  steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.8'
+    steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.8'
 
-  - script: |
-      python -m pip install --upgrade pip
-      pip install .
-    displayName: 'Install package'
+      - script: |
+          python -m pip install --upgrade pip
+          pip install .
+        displayName: 'Install package'
 
-  - script: |
-      python examples/demo.py
-    displayName: 'Run example'
+      - script: |
+          python examples/demo.py
+        displayName: 'Run example'
 
-  - publish: dmn_img.png
-    artifact: dmn_img
-    displayName: 'Publish artifacts'
+      - publish: dmn_img.png
+        artifact: dmn_img
+        displayName: 'Publish artifacts'
+
+  - job: 'linting'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.8'
+      - script: |
+          python -m pip install --upgrade pip
+          pip install flake8
+          flake8 .
+        displayName: 'Run flake8'
