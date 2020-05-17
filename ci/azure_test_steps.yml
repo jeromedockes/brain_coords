@@ -3,29 +3,16 @@ steps:
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '$(python.version)'
-
   - script: |
       python -m pip install --upgrade pip
-      pip install pytest pytest-cov pytest-azurepipelines codecov
-      pip install $(numpy.spec)
+      pip install pytest pytest-azurepipelines $(numpy.spec)
       pip install .
     displayName: 'Install'
-
   - bash: >
-      mkdir -p "$TEST_DIR" &&
-      cd "$TEST_DIR" &&
+      mkdir -p "$TEST_DIR" && cd "$TEST_DIR" &&
       python -m pytest --pyargs brain_coords
-      --cov=brain_coords --cov-report=xml --cov-append
       -o junit_family=xunit2 --junitxml=test-results.xml
     displayName: 'Run tests'
-
-  - bash: |
-      cp "$TEST_DIR"/{.coverage,coverage.xml} .
-      bash <(curl -s https://codecov.io/bash) -t "$CODECOV_TOKEN"
-    displayName: 'codecov upload'
-    env:
-      CODECOV_TOKEN: $(CODECOV_TOKEN)
-
   - task: PublishTestResults@2
     inputs:
       testResultsFiles: '$(TEST_DIR)/test-results.xml'
