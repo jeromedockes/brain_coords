@@ -12,11 +12,19 @@ env:
     - NUMPY_SPEC='numpy==1.16'
     - NUMPY_SPEC='numpy'
 
-install:
-  - pip install $NUMPY_SPEC
-  - pip install pytest pytest-cov codecov
-  - pip install .
-
-script:
-  - ci/travis_test.sh
-  - bash <(curl -s https://codecov.io/bash)
+jobs:
+  include:
+    - stage: test
+      install:
+        - pip install $NUMPY_SPEC
+        - pip install pytest pytest-cov codecov
+        - pip install .
+      script:
+        - ci/travis_test.sh
+        - bash <(curl -s https://codecov.io/bash)
+    - stage: linting
+      install:
+        - pip install flake8
+        - flake8 .
+      python: 3.8
+      NUMPY_SPEC: 'numpy'
