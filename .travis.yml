@@ -14,5 +14,5 @@ install:
   - pip install .
 
 script:
-  - pytest --pyargs brain_coords --cov=brain_coords --cov-report=xml --cov-append
+  - ci/travis_test.sh
   - bash <(curl -s https://codecov.io/bash)
