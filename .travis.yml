@@ -9,8 +9,8 @@ env:
   global:
     - TEST_DIR="$TRAVIS_BUILD_DIR/tmp"
   matrix:
-    - NUMPY_SPEC='numpy==1.16'
     - NUMPY_SPEC='numpy'
+    - NUMPY_SPEC='numpy==1.16'
 
 install:
   - pip install $NUMPY_SPEC
@@ -28,4 +28,4 @@ jobs:
         - pip install flake8
         - flake8 .
       python: 3.8
-      NUMPY_SPEC: 'numpy'
+      env:
