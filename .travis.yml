@@ -1,3 +1,4 @@
+---
 language: python
 
 python:
@@ -5,8 +6,11 @@ python:
   - 3.8
 
 env:
-  - NUMPY_SPEC='numpy==1.16'
-  - NUMPY_SPEC='numpy'
+  global:
+    - TEST_DIR="$TRAVIS_BUILD_DIR/tmp"
+  matrix:
+    - NUMPY_SPEC='numpy'
+    - NUMPY_SPEC='numpy==1.16'
 
 install:
   - pip install $NUMPY_SPEC
@@ -14,5 +18,14 @@ install:
   - pip install .
 
 script:
-  - pytest --pyargs brain_coords --cov=brain_coords
-  - codecov
+  - ci/travis_test.sh
+  - bash <(curl -s https://codecov.io/bash)
+
+jobs:
+  include:
+    - stage: linting
+      install:
+        - pip install flake8
+      script: flake8 .
+      python: 3.8
+      env:
