@@ -21,6 +21,8 @@ jobs:
 - job: 'run_tests_on_windows'
   pool:
     vmImage: 'windows-latest'
+  variables:
+    TEST_DIR: '$(Agent.WorkFolder)\\tmp_test_dir'
   strategy:
     matrix:
       Python37:
