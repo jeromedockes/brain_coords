@@ -5,8 +5,11 @@ python:
   - 3.8
 
 env:
-  - NUMPY_SPEC='numpy==1.16'
-  - NUMPY_SPEC='numpy'
+  global:
+    - TEST_DIR="$TRAVIS_BUILD_DIR/tmp"
+  matrix:
+    - NUMPY_SPEC='numpy==1.16'
+    - NUMPY_SPEC='numpy'
 
 install:
   - pip install $NUMPY_SPEC
