@@ -5,6 +5,8 @@ jobs:
 - job: 'run_tests_on_ubuntu'
   pool:
     vmImage: 'ubuntu-latest'
+  variables:
+    TEST_DIR: '$(Agent.WorkFolder)/tmp_test_dir'
   strategy:
     matrix:
       Python36:
