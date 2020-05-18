@@ -1,7 +1,26 @@
 ---
-version: 2
+version: 2.1
 jobs:
-  build:
+  test:
+    parameters:
+      python_version:
+        type: string
+        default: "3.8"
+      numpy_spec:
+        type: string
+        default: "numpy"
+    docker:
+      - image: circleci/python:<< parameters.python_version >>
+    environment:
+      TEST_DIR: "~/tmp"
+    steps:
+      - checkout
+      - run: pip install << parameters.numpy_spec >>
+      - run: pip install .
+      - run: pip install pytest pytest-cov codecov
+      - run: ci/run_tests.sh
+      - run: bash <(curl -s https://codecov.io/bash)
+  run_examples:
     docker:
       - image: circleci/python:3.8
     steps:
@@ -11,3 +30,15 @@ jobs:
       - store_artifacts:
           path: dmn_img.png
           destination: dmn_img.png
+
+workflows:
+  all-tests:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              python_version: ["3.6", "3.8"]
+              numpy_spec: ["numpy==1.16", "numpy"]
+  run_examples:
+    jobs:
+      - run_examples
