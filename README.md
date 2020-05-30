@@ -4,4 +4,4 @@
 
 # Transform MNI coordinates to images
 
-this is a useless repo to show how to set up CI
+this is a useless repo to show how to set up CI.
