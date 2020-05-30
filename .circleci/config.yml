@@ -25,7 +25,7 @@ jobs:
       - image: circleci/python:3.8
     steps:
       - checkout
-      - restore cache:
+      - restore_cache:
           keys:
             - virtualenv-cache-C030-{{ epoch }}
             - virtualenv-cache-C030
