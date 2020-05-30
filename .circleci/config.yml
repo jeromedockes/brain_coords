@@ -25,6 +25,15 @@ jobs:
       - image: circleci/python:3.8
     steps:
       - checkout
+      - restore cache:
+          keys:
+            - virtualenv-cache-C030-{{ epoch }}
+            - virtualenv-cache-C030
+      - run: pip install -r requirements.txt
+      - save_cache:
+          key: virtualenv-cache-C030-{{ epoch }}
+          paths:
+            - ~/.local/lib/python3.8
       - run: pip install .
       - run: python examples/demo.py
       - store_artifacts:
